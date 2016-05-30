@@ -147,6 +147,14 @@ def download_single_task(client, task, options):
 	else:
 		output_name = safe_encode_native_path(escape_filename(task['name']))
 		output_dir = output_dir or '.'
+
+		splited = os.path.splitext(output_name)[0]
+		replace = re.compile('\[\d+\]|S\d+E\d+.')
+		folder_name = replace.sub('', splited)
+
+		if splited is not folder_name:
+			output_dir = os.path.join(output_dir, folder_name)
+
 		output_path = os.path.join(output_dir, output_name)
 
 	if task['type'] == 'bt':
